@@ -19,7 +19,7 @@ public class DisciplinaController {
 	@Autowired
 	private DisciplinaRepo disciplinaRepo;
 
-	@GetMapping("/api/discipinas")
+	@GetMapping("/api/disciplinas")
 	Iterable<Disciplina> getDisciplinas() {
 		return disciplinaRepo.findAll();
 	}
@@ -35,7 +35,7 @@ public class DisciplinaController {
 		return createdDis;
 	}
 	
-	@PutMapping("/api/disciplina/{disciplinaId}")
+	@PutMapping("/api/disciplinas/{disciplinaId}")
 	Optional<Disciplina> updateDisciplina(@RequestBody Disciplina disciplinaReq, @PathVariable long disciplinaId) {
 		Optional<Disciplina> opt = disciplinaRepo.findById(disciplinaId);
 		if (opt.isPresent()) {
@@ -47,8 +47,8 @@ public class DisciplinaController {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao alterar dados da disciplina com id " + disciplinaId);
 	}	
 	
-	@DeleteMapping("/api/disciplina/{id}")
-	void deleteFaculdade(@PathVariable long id) {
+	@DeleteMapping("/api/disciplinas/{id}")
+	void deleteDisciplina(@PathVariable long id) {
 		disciplinaRepo.deleteById(id);
 	}	
 	

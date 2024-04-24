@@ -3,19 +3,19 @@
 <html>
 
 <head>
-    <title>Disciplina</title>
+    <title>Disciplinas</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
 </head>
 
 <body>
-    <h1>Gerenciamento de Disciplina</h1>
+    <h1>Gerenciamento de Disciplinas</h1>
 
     <table>    
         <tr> <td>ID:</td> <td><input type="text" id="txtId"></td> </tr>
         <tr> <td>Nome:</td> <td><input type="text" id="txtNome"></td> </tr>
-        <tr> <td>Curso:</td> <td><input type="text" id="txtCurso"></td> </tr>
         <tr> <td>Carga Horária:</td> <td><input type="text" id="txtCarga"></td> </tr>
+        <tr> <td>Curso:</td> <td><input type="text" id="txtCurso"></td> </tr>
         <tr><td></td><td>
             <input type="button" value="Novo" onclick="novaDisciplina()" id="btnNovo">
             <input type="button" value="Salvar" onclick="salvarDisciplina()" id="btnSalvar">
@@ -27,7 +27,7 @@
     <p style="font-weight:bold" id="paragrafoMensagem"></p>
     
     <table>    
-        <tr> <th>ID</th> <th>Nome</th> <th>Curso</th> <th>Carga</th> </tr>
+        <tr> <th>ID</th> <th>Nome</th> <th>Carga</th> <th>Curso</th> </tr>
         <tbody id="corpoTabelaDisciplinas"> </tbody>
     </table>
     
@@ -49,25 +49,25 @@
 
         function inicializar() {
             criandoNovaDisciplina = false;
-            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma Disciplina da lista:'
+            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma disciplina da lista:'
             txtId.value = '';
             txtNome.value = '';
-            txtCurso.value = '';
             txtCarga.value = '';
+            txtCurso.value = '';
 
             txtId.disabled = true;
             txtNome.disabled = true;
-            txtCurso.disabled = true;
             txtCarga.disabled = true;
+            txtCurso.disabled = true;
 
             btnNovo.disabled = false;
             btnSalvar.disabled = true;
             btnApagar.disabled = true;
             btnCancelar.disabled = true;
-            listarTodasDisciplinas();            
+            listarTodasDisciplina();            
         }
 
-        async function listarTodasDisciplinas() {
+        async function listarTodasDisciplina() {
             const URL = `/api/disciplinas`;
             fetch(URL)
               .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta;}) 
@@ -83,27 +83,26 @@
             for (var i = 0; i < n; i++) {
                 var f = disciplinas[i];
                 linhasTabela += 
-                    `<tr><td><a href="javascript:void(0)" onclick="selecionarDisciplina('${f.id}','${f.nome}','${f.curso}','${f.carga}')">` 
+                    `<tr><td><a href="javascript:void(0)" onclick="selecionarDisciplina('${f.id}','${f.nome}','${f.carga}','${f.curso}')">` 
                     + f.id     + '</a></td>' + 
                     '<td>' + f.nome   + '</td>' +
-                    '<td>' + f.curso   + '</td>' +
-                    '<td>' + f.carga + '</td></tr>\n';
+                    '<td>' + f.carga + '</td>'+ '<td>' + f.curso + '</td> </tr>\n';
             }
             corpoTabela.innerHTML = linhasTabela;
         }
 
-        function selecionarDisciplina(id, nome, curso, carga) {
+        function selecionarDisciplina(id, nome, carga, curso) {
             criandoNovaDisciplina = false;
             paragrafoMensagem.innerHTML = 'Altere e salve os dados da disciplina, ou então apague o registro da disciplina.'
             txtId.value = id;
             txtNome.value = nome;
-            txtCurso.value = curso;
             txtCarga.value = carga;
+            txtCurso.value = curso;
 
             txtId.disabled = true;
             txtNome.disabled = false;
-            txtCurso.disabled = false;
             txtCarga.disabled = false;
+            txtCurso.disabled = false;
 
             btnNovo.disabled = true;
             btnSalvar.disabled = false;
@@ -117,13 +116,13 @@
             
             txtId.value = '';
             txtNome.value = '';
-            txtCurso.value = '';
             txtCarga.value = '';
+            txtCurso.value = '';
             
             txtId.disabled = true;
             txtNome.disabled = false;
-            txtCurso.disabled = false;
             txtCarga.disabled = false;
+            txtCurso.disabled = false;
             
             btnNovo.disabled = true;
             btnSalvar.disabled = false;
@@ -144,8 +143,8 @@
             const URL = `/api/disciplinas`;
             const dadosDisciplina = {
                 'nome': txtNome.value,
-                'curso': txtCurso.value, 
-                'carga': txtCarga.value
+                'carga': txtCarga.value,
+                'curso': txtCurso.value
             };
             const postRequest = {
                 method: 'POST',
@@ -162,11 +161,11 @@
         async function alterarDisciplina() {
             const ID = txtId.value;
             const URL = `/api/disciplinas/${ID}`;
-            const dadosFaculdade = {
+            const dadosDisciplina = {
                 'id': ID,
                 'nome': txtNome.value,
-                'curso': txtCurso.value, 
-                'carga': txtCarga.value
+                'carga': txtCarga.value,
+                'curso': txtCurso.value
             };
             const putRequest = {
                 method: 'PUT',
@@ -193,7 +192,7 @@
             fetch(URL, deleteRequest)
                 .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
                 .then(resposta => inicializar())
-                .catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao apagar disciplina (código ' + error.message + ')'; } );	        		
+                .catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao apagar faculdade (código ' + error.message + ')'; } );	        		
         }
         
     </script>    
